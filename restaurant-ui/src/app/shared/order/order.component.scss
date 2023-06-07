@@ -1,0 +1,50 @@
+@import "../../../assets/styles/styles.scss";
+
+.order {
+  // order__body{
+
+    width: 100%;
+   
+
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: em(15);
+    font-size: rem(16);
+    margin: em(20) 0;
+    padding: rem(7);
+    border-bottom: 1px solid #a3a3a3;
+
+  
+    & > * {
+      width: 30%;
+      display: flex;
+      justify-content: center;
+    }
+
+  
+
+  &__title {
+   // max-width: 100%;
+    overflow-wrap: break-word;
+  }
+
+
+  // .order__quantity
+
+  // &__quantity {
+  // }
+
+  // .order__price
+
+  // &__price {
+  // }
+
+  span {
+    align-items: center;
+
+  }
+ 
+}

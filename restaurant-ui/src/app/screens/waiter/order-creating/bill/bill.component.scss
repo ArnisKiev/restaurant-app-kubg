@@ -1,0 +1,63 @@
+@import "../../../../../assets/styles/styles.scss";
+
+.order-confirm {
+  // .order-confirm__container
+
+  &__container {
+  }
+
+  // .order-confirm__orders
+
+  &__orders {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+
+    & > * {
+      width: 100%;
+    }
+
+  }
+
+  // .order-confirm__footer
+
+  &__footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: em(30, 18);
+    padding: em(20, 18) 0;
+    font-size: rem(18);
+   
+
+    @media (max-width: $mobile) {
+      flex-direction: column;
+      gap: em(15, 18);
+      font-size: rem(20);
+    }
+  }
+
+  // .order-confirm__total
+
+  &__total {
+    display: flex;
+    gap: em(5, 18);
+
+    @media (min-width: $mobile) {
+      flex-direction: column;
+    }
+  }
+
+  &__total-label {
+  }
+
+
+  &__total-price {
+    white-space: nowrap;
+  }
+
+
+  &__button {
+  }
+}

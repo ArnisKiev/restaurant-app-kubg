@@ -1,0 +1,9 @@
+<mat-tab-group [mat-stretch-tabs]="true" class="order-creating-container">
+  <mat-tab label="Позиції" >
+    <app-order-form [table]="table"></app-order-form>
+  </mat-tab>
+  <mat-tab label="Підтвердження замовлення"
+    ><app-order-confirm (onOrderConfirmClick)="onConfirmOrder()" [table]="table"></app-order-confirm
+  ></mat-tab>
+  <mat-tab label="Рахунок"><app-bill [table]="table"></app-bill></mat-tab>
+</mat-tab-group>

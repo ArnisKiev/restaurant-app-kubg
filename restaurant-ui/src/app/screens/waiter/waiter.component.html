@@ -1,0 +1,12 @@
+<div class="waiter">
+  <div class="waiter__container screen-container" [ngSwitch]="currentComponent">
+    <app-menu-list [listItems]="listMenuItems"></app-menu-list>
+  
+        <app-tables  *ngSwitchCase="waiterComponents.Tables"></app-tables>
+ 
+        <div *ngSwitchCase="waiterComponents.OrderedDishes">
+          another component!
+        </div>
+      
+  </div>
+</div>

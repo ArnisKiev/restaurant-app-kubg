@@ -1,0 +1,8 @@
+<div class="admin">
+  <div class="admin__container screen-container" [ngSwitch]="currentComponent">
+     <app-menu-list  [listItems]="listMenuItems"></app-menu-list>
+    <app-dishes-manage *ngSwitchCase="adminComponents.ManageDishes"></app-dishes-manage>
+    <app-employee-managaging *ngSwitchCase="adminComponents.ManageEmployee"></app-employee-managaging> 
+    <app-preparing-dishes *ngSwitchCase="adminComponents.OrderedDishes" [orderedDishes]="orderService.preparingDishes"></app-preparing-dishes>
+  </div>
+</div>

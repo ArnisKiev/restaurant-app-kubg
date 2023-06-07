@@ -1,0 +1,64 @@
+@import "../../../../assets/styles/styles.scss";
+
+.completed-order {
+  // .completed-order__body
+
+  &__body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: em(15, 18);
+    font-size: rem(18);
+    padding: em(30, 18) rem(10);
+    cursor: pointer;
+
+    @media (max-width: $mobile) {
+      gap: em(10, 18);
+    }
+  }
+
+  // .completed-order__img
+
+  &__img {
+    position: relative;
+    grid-row: 1 / span 2;
+
+    @media (max-width: $mobile) {
+      grid-column: 1 / span 2;
+      grid-row: auto;
+    }
+
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: rem(10);
+    }
+  }
+
+  // .completed-order__title
+
+  &__title {
+    align-self: end;
+    grid-column: 2 / span 2;
+
+    @media (max-width: $mobile) {
+      grid-column: 1 / span 2;
+    }
+  }
+
+  // .completed-order__status
+
+  &__status {
+    @media (max-width: $mobile) {
+      grid-column: 1 / span 2;
+    }
+
+    img {
+      height: em(18, 18);
+    }
+  }
+}

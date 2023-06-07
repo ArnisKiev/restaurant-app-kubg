@@ -1,0 +1,25 @@
+<mat-card class="dish-card">
+  <div class="dish-card__img">
+    <img matCardImage [src]="image" />
+  </div>
+  <mat-card-title class="dish-card__title">{{ dish.title }}</mat-card-title>
+  <mat-card-subtitle class="dish-card__subtitle">{{
+    description
+  }}</mat-card-subtitle>
+
+  <span class="dish-card__price">{{ dish?.price }} 	&#8372;</span>
+  <div class="dish-card__buttons" *ngIf="!dish?.isStopList"> 
+    <app-counter [(count)]="count" [min]="0"   ></app-counter>
+    <button
+      class="dish-card__add-button button button--primary-green"
+      (click)="onAddClick()"
+    >
+      Додати
+    </button>
+  </div>
+
+  <div *ngIf="dish?.isStopList" class="stop-list">
+    <span>У стоп листі</span> 
+  </div>
+
+</mat-card>

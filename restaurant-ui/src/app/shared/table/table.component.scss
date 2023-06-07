@@ -1,0 +1,50 @@
+@import "../../../assets/styles/styles.scss";
+
+.table {
+  background-image: url("../../../assets//images/table.svg");
+  height: rem(100);
+  width: rem(100);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease 0s;
+
+  @media (max-width: 800px) {
+    height: rem(70);
+    width: rem(70);
+
+    .table__number {
+      font-size: rem(18);
+    }
+  }
+
+  &:hover {
+    .table__number {
+      width: 52%;
+      height: 52%;
+      transform: translate(0, 0);
+    }
+  }
+
+  // .table__number
+
+  &__number {
+    width: 45%;
+    height: 45%;
+    font-size: rem(24.4);
+    font-weight: 800;
+    color: #ffffff;
+    border-radius: 50%;
+    background-color: $primary-green;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease 0s;
+    padding: rem(3);
+
+    span {
+      transform: translateY(10%);
+    }
+  }
+}

@@ -1,0 +1,23 @@
+<div class="order-confirm">
+  <div class="order-confirm__container">
+    <ul class="order-confirm__orders">
+      <ng-container *ngFor="let order of dishesBill">
+        <app-order *ngIf="order?.count > 0" [disabled]="true" [table]="table" [orderedDish]="order"></app-order>
+      </ng-container>
+   
+    
+    </ul>
+    <div class="order-confirm__footer" *ngIf="dishesBill.length">
+      <div class="order-confirm__total">
+        <span class="order-confirm__total-label">Разом:</span>
+        <span class="order-confirm__total-price">{{ sumOfPrices }} грн</span>
+      </div>
+      <button
+        class="order-confirm__button button button--primary-green"
+        (click)="onCloseOrder()"
+      >
+        Закрити рахунок
+      </button>
+    </div>
+  </div>
+</div>

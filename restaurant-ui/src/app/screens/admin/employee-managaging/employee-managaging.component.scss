@@ -1,0 +1,30 @@
+@import "../../../../assets/styles/styles.scss";
+
+:host {
+  .button {
+    padding: em(8, 14) em(20, 14);
+    font-size: rem(14);
+  }
+
+  td,
+  th {
+    text-align: center;
+  }
+}
+
+.dishes {
+}
+
+.manage-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: rem(8);
+}
+
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: rem(8);
+}

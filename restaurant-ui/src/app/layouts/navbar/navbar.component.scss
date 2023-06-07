@@ -1,0 +1,137 @@
+@import "../../../assets/styles/styles.scss";
+
+.navbar {
+  background-color: $primary-green;
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    z-index: 10;
+    min-height: rem(70);
+  }
+
+  &__logo {
+    img {
+      height: rem(35);
+    }
+  }
+
+  &__notifications {
+    display: block;
+    position: relative;
+    padding-left: rem(10);
+
+    @media (min-width: $pc) {
+      &:hover {
+        .navbar__orders {
+          visibility: visible;
+          transform: translate(0);
+          opacity: 1;
+          pointer-events: all;
+        }
+      }
+    }
+
+    @media (max-width: $pc) {
+      &_active {
+        .navbar__orders {
+          visibility: visible;
+          transform: translate(0);
+          opacity: 1;
+          pointer-events: all;
+          display: block;
+        }
+      }
+    }
+  }
+
+  &__bell {
+    position: relative;
+
+    img {
+      height: rem(30);
+    }
+  }
+
+  &__indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: em(-10, 12);
+    right: em(-10, 12);
+    width: em(20, 12);
+    height: em(20, 12);
+    font-size: rem(12);
+    border-radius: 50%;
+    color: #ffffff;
+    background-color: #ff0000;
+  }
+
+  &__notifications-number {
+    transform: translateY(10%);
+  }
+
+  &__orders {
+    visibility: hidden;
+    position: absolute;
+    top: 100%;
+    right: -145%;
+    padding: 0 rem(15);
+    transform: translate(10%, -10%);
+    min-width: rem(420);
+    max-height: 80vh;
+    overflow: auto;
+    opacity: 0;
+    border-radius: rem(10);
+    background-color: rgba(0, 0, 0, 0.65);
+    pointer-events: none;
+    transition: all 0.3s ease 0s;
+    color: #ffffff;
+
+    @media (max-width: $pc) {
+      display: none;
+      top: 100%;
+      flex: 1 1 100%;
+    }
+
+    @media (max-width: $mobile) {
+      min-width: rem(290);
+    }
+
+    > *:not(:last-child) {
+      display: block;
+      border-bottom: rem(1) solid #fff;
+    }
+
+    > *:not(:first-child) {
+      display: block;
+      border-top: rem(1) solid #fff;
+    }
+  }
+}
+
+:host(.hidden) {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  .menu-icon {
+    display: initial;
+  }
+}
+
+@media (min-width: 801px) {
+  .menu-icon {
+    display:none;
+  }
+}
+
+.waiter-items {
+  display: flex;
+  align-items: center;
+  gap: rem(20)
+}
+

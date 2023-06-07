@@ -1,0 +1,46 @@
+@import "../../../../../assets/styles/styles.scss";
+
+.order-form {
+  // .order-form__container
+
+  overflow-x: hidden;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: rem(24);
+    @include responsiveValue(padding, 50, 15);
+  }
+
+  // .order-form__search
+
+  &__search {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: rem(16);
+    margin: 0 auto;
+    @include responsiveValue(width, 70%, 100%);
+
+    @media (max-width: $mobile) {
+      grid-template-rows: repeat(2, 1fr);
+      grid-template-columns: auto;
+    }
+  }
+
+  // .order-form__dishes
+
+  &__dishes {
+    margin: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: rem(24);
+    justify-content: center;
+    align-items: stretch;
+
+    @media (min-width: rem(100)) {
+      padding: rem(10);
+      gap: rem(12);
+    }
+  }
+}

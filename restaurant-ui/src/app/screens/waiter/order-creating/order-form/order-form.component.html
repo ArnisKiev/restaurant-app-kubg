@@ -1,0 +1,28 @@
+<div class="order-form">
+  <div class="order-form__container">
+
+      <form [formGroup]="filterForm" class="order-form__search">
+        <mat-form-field>
+          <input formControlName="title" type="text" matInput placeholder="Пошук..." />
+          <mat-icon matSuffix aria-hidden="false" fontIcon="search"></mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Усі</mat-label>
+          <mat-select formControlName="cookingPlace">
+            <mat-option *ngFor="let option of cookingPlaceOptions" class="u-padding-0-16" [value]="option.value">{{option.displayValue}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+
+
+    <mat-divider></mat-divider>
+
+    <div class="order-form__dishes">
+      <app-dish-card
+        *ngFor="let dish of filteredDishes"
+        [dish]="dish"
+        (onAddEmit)="onAddDish($event)"
+      ></app-dish-card>
+    </div>
+  </div>
+</div>

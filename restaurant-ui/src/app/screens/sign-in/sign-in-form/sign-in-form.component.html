@@ -1,0 +1,27 @@
+<div class="sign-in-form">
+  <div class="header-form-wrapper">
+    <h4 class="header">Авторизуватися</h4>
+    <div class="form-wrapper">
+      <form>
+        <mat-form-field>
+          <mat-label>Код авторизації</mat-label>
+          <input
+            (focus)="resetSentRequest()"
+            [formControl]="code"
+            class="input-material"
+            type="password"
+            matInput
+            minlength="4"
+          />
+          
+          <mat-error *ngIf="showNotFoundError">Користувач не знайден!</mat-error>
+         
+        </mat-form-field>
+      </form>
+      <button (click)="authorize()"
+        class="button button--primary-green button--animated">
+        Увійти
+      </button>
+    </div>
+  </div>
+</div>

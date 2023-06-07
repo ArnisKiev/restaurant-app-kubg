@@ -1,0 +1,18 @@
+<div class="cook-card" (click)="onClickCard()" [ngClass]="cardModificator" [ngStyle]="styles">
+  <div class="cook-card__body">
+    <h6 class="cook-card__title">
+      {{ orderedDish.title }}
+    </h6>
+    <div class="cook-card__timer">
+      {{ displayRemainingTime | negativeTime }}
+    </div>
+    <div class="cook-card__footer">
+      <span class="cook-card__waiter"
+        >{{ orderedDish?.waiter?.name }}
+        {{ orderedDish?.waiter?.surname }}</span
+      >
+      <span class="cook-card__number">№{{ orderedDish.table }}</span>
+    </div>
+    <button class="cook-card__info _icon-info" (click)="onInfoClick()"></button>
+  </div>
+</div>

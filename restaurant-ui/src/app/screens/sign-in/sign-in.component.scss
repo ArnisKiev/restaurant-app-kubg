@@ -1,0 +1,15 @@
+@import "../../../assets/styles/styles.scss";
+
+.sign-in {
+  height: 100vh;
+  background-image: linear-gradient(
+      to right bottom,
+      rgba($green-light, 0.7),
+      rgba($green-dark, 0.7)
+    ),
+    url("../../../assets/images/sign-in-background.jpg");
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,0 +1,6 @@
+<div class="cook-screen">
+    <div class="cook-screen__container">
+      <app-cook-card [hasOnCardClickAction]="hasOnCardClickAction"  *ngFor="let dish of orderedDishes" [orderedDish]="dish" 
+      [onClickCardAction]="onClick(dish)"></app-cook-card>
+    </div>
+  </div>

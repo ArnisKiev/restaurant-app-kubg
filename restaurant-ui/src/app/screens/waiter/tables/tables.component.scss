@@ -1,0 +1,94 @@
+@import "../../../../assets/styles/styles.scss";
+
+.tables-container {
+  display: grid;
+
+  @media (min-width: 801px) {
+    grid-template-areas:
+    "table-1   table-2    table-3    ....        table-7    table-8"
+    "table-4   table-5    table-6    ....        table-9    table-10"
+    ".......   ........   .......    ....        table-9    table-10"
+    ".......   ........   .......    ....        ......     table-11"
+    "table-16  table-15   table-14    table-13   table-12   .........";  
+  }
+
+  
+
+  @media (max-width: 800px) {
+      grid-template-areas: 
+        "table-16 ..... .....  table-4 table-1"                      
+        "table-15 ..... ..... table-5 table-2 "
+        "table-14 ..... ..... table-6 table-3"
+        "table-13 ..... ..... ..... ....."
+        "table-12 ..... ..... table-9 table-7"
+        "........ table-11 ..... table-10 table-8";
+
+        justify-items: center;
+
+  }
+}
+
+:host {
+  .button {
+    padding: em(2) em(6);
+    font-size: rem(16);
+    line-height: em(1);
+    width: calc((60%) - em(10));
+  }
+}
+
+.card {
+  padding: rem(8);
+  width: rem(20);
+  display: flex;
+  flex-direction: column;
+  gap: rem(8);
+
+  &__title,
+  &__subtitle {
+    text-align: center;
+  }
+
+  &__title {
+    font-size: rem(19.2);
+    font-weight: 500;
+  }
+
+  &__subtitle {
+    font-size: rem(12.8);
+  }
+
+  &__price {
+    font-size: rem(16);
+    margin: auto;
+    color: #ff0000;
+    font-weight: 500;
+  }
+
+  &__buttons {
+    display: flex;
+    margin: auto;
+    width: 80%;
+    gap: rem(16);
+  }
+}
+
+.adding-block {
+  padding: rem(6.4);
+  display: flex;
+  gap: rem(1.6);
+  border: rem(1) solid #777777;
+  border-radius: rem(3.2);
+  max-width: 40%;
+
+  &__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      height: auto;
+      width: 80%;
+    }
+  }
+}

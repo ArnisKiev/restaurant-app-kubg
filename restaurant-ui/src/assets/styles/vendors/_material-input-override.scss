@@ -1,0 +1,12 @@
+input[type="text"].cust-input {
+  text-align: center !important;
+}
+
+input[type="text"].cust-input::placeholder {
+  text-align: center;
+  visibility: hidden;
+}
+
+input[type="text"].cust-input:focus::placeholder {
+  visibility: visible;
+}

@@ -1,0 +1,21 @@
+@import "../../../assets/styles/styles.scss";
+
+.waiter {
+  // .waiter__container
+
+  &__container {
+  }
+}
+.screen-container {
+}
+
+@media (max-width: 800px) {
+  app-menu-list {
+    display: none;
+  }
+
+  .screen-container {
+    grid-template-columns: 1fr;
+  }
+
+}

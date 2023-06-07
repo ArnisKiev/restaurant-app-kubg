@@ -1,0 +1,63 @@
+<div class="adding-new-employee-container">
+  <ng-container *ngIf="!isRequestSending && !showSuccesContainer">
+    <form [formGroup]="userForm">
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Ім'я</mat-label>
+          <input formControlName="name" type="text" class="input-material" matInput />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Призвище</mat-label>
+          <input formControlName="surname" type="text" class="input-material" matInput />
+        </mat-form-field>
+      </div>
+
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Роль</mat-label>
+          <mat-select formControlName="role">
+            <mat-option *ngFor="let option of rolesOptions" class="u-padding-0-16" [value]="option.value">{{
+              option.displayValue }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngIf="showCookingPlace">
+          <mat-label>Робота на</mat-label>
+          <mat-select formControlName="cookingPlace">
+            <mat-option *ngFor="let option of cookingPlaceOptions" class="u-padding-0-16" [value]="option.value">{{
+              option.displayValue }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="buttons-block">
+        <div class="row">
+          <button class="button button--grey-dark" (click)="onExitClick()">Вийти</button>
+          <button class="button button--primary-green" (click)="onCreateOrUpdate()">
+            {{user? 'Оновити': 'Додати'}}
+          </button>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+
+  <ng-container *ngIf="isRequestSending">
+    <div class="spinner-wrapper">
+      <mat-progress-spinner style="margin: 0 10px" value="10" mode="indeterminate"></mat-progress-spinner>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="showSuccesContainer">
+    <div class="message-wrapper">
+      <div class="message-wrapper__icon">
+        <img src="../../../assets/images/success.svg" />
+      </div>
+      <h2>{{successMessage}}</h2>
+      <h3 *ngIf="code !== ''">
+        <span class="message-wrapper__code message-wrapper__code_bold">Код авторизації</span>: {{ code }}
+      </h3>
+      <button class="message-wrapper__button button button--green-dark" (click)="onBackClick()">
+        Додати ще співробітника
+      </button>
+    </div>
+  </ng-container>
+</div>

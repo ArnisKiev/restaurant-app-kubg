@@ -1,0 +1,19 @@
+@import "../../../assets/styles/styles.scss";
+.cook-screen {
+  // .cook-screen__container
+
+  &__container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: rem(30);
+    margin: 0 auto;
+    padding-top: rem(20);
+    padding-bottom: rem(20);
+    text-align: center;
+
+    @media (max-width: rem(899.98)) {
+      justify-content: center;
+    }
+  }
+}

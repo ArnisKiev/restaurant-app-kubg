@@ -1,0 +1,157 @@
+@import "../../../assets/styles/styles.scss";
+
+:host {
+  textarea {
+    resize: none;
+    height: rem(48);
+  }
+}
+
+.adding-new-dish-container {
+  padding: rem(24);
+
+  display: grid;
+  gap: rem(16);
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 2fr 1fr;
+
+  &__section {
+    padding: rem(8);
+    position: relative;
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
+
+.loading-image-field {
+  display: grid;
+  place-items: center;
+
+  cursor: pointer;
+
+  img {
+    max-height: 100%;
+    max-width: 100%;
+  }
+
+  &__title {
+    color: $grey-dark;
+    font-weight: 500;
+    letter-spacing: rem(3.2);
+    text-align: center;
+  }
+}
+
+.ingredients-adding {
+  display: flex;
+  justify-content: start;
+  gap: rem(16);
+  align-items: center;
+}
+
+.wrapper {
+  display: flex;
+  gap: rem(16);
+
+  & > * {
+    flex-grow: 1;
+  }
+
+  align-items: center;
+}
+
+.ingredients {
+  display: flex;
+  gap: rem(8);
+  flex-wrap: wrap;
+
+  &__item {
+    position: relative;
+    padding: rem(5) rem(10);
+    border-radius: rem(16);
+    color: $grey-dark;
+    background-color: $grey-light;
+    transition: all 0.3s ease 0s;
+
+    @media (max-width: $pc) {
+      padding-right: rem(30);
+    }
+
+    @media (min-width: $pc) {
+      &:hover {
+        padding-right: rem(25);
+
+        .ingredients__cross {
+          visibility: visible;
+          opacity: 1;
+
+          &:hover {
+            opacity: 0.5;
+          }
+
+          &::before {
+            transform: rotate(45deg);
+          }
+
+          &::after {
+            transform: rotate(-45deg);
+          }
+        }
+      }
+    }
+  }
+
+  &__cross {
+    position: absolute;
+    top: 50%;
+    right: rem(5);
+    transform: translateY(-15%);
+    width: rem(15);
+    height: rem(15);
+    background-color: transparent;
+    transition: all 0.3s ease 0s;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: rem(15);
+      height: rem(2);
+      background-color: $grey-dark;
+      transition: all 0.3s ease 0s;
+    }
+
+    &::before {
+      transform: rotate(45deg);
+    }
+
+    &::after {
+      transform: rotate(-45deg);
+    }
+
+    @media (min-width: $pc) {
+      visibility: hidden;
+      opacity: 0;
+
+      &::before {
+        transform: rotate(90deg);
+      }
+
+      &::after {
+        transform: rotate(-90deg);
+      }
+    }
+  }
+}
+
+.buttons-block {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: end;
+  align-items: end;
+  gap: rem(16);
+}

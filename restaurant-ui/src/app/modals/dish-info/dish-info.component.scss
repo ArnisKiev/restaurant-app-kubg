@@ -1,0 +1,76 @@
+@import "../../../assets/styles/styles.scss";
+
+.dish-info-container {
+  padding: rem(32);
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  gap: rem(32);
+  max-width: 100%;
+  max-height: 100%;
+  align-content: start;
+}
+
+.image-wrapper {
+  border-radius: rem(5);
+  padding: rem(10);
+  display: grid;
+  place-items: center;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.info {
+  padding: rem(8);
+  position: relative;
+  overflow: auto;
+
+  &__price {
+    position: absolute;
+    right: 10%;
+    bottom: 10%;
+    font-family: "Roboto Mono";
+    font-style: normal;
+    font-weight: 600;
+    font-size: rem(32);
+    line-height: em(19.2, 32);
+    text-decoration: none;
+  }
+}
+
+.dish-name {
+  font-weight: 700;
+  font-size: rem(32);
+  line-height: em(33.6, 32);
+  word-wrap: break-word;
+  margin: 0;
+}
+
+.description {
+  font-family: "Actor";
+  font-style: normal;
+  font-weight: 400;
+  font-size: rem(20.8);
+  line-height: em(25.6, 20.8);
+}
+
+.ingredients-header {
+  font-weight: 700;
+  font-size: rem(24);
+  line-height: em(27.2, 24);
+}
+
+.igredients-list {
+  list-style-type: none;
+  padding: 0;
+
+  &__item {
+    font-weight: 500;
+    font-size: rem(16);
+    line-height: em(19.2);
+    text-decoration: none;
+  }
+}

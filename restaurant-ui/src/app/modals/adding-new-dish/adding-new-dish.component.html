@@ -1,0 +1,95 @@
+<div class="adding-new-dish-container">
+  <section class="adding-new-dish-container__section">
+    <div class="loading-image-field">
+     <img [src]="image" />
+    </div>
+  </section>
+  <section class="adding-new-dish-container__section">
+    <form [formGroup]="dishForm">
+      <mat-form-field style="width: 100%">
+        <mat-label>Назва страви</mat-label>
+        <input
+          formControlName="title"
+          type="text"
+          class="input-material"
+          matInput
+          placeholder="Запечений ролл с вугрем"
+        />
+      </mat-form-field>
+      <div class="wrapper">
+        <mat-form-field>
+          <mat-label>Зона приготування</mat-label>
+          <mat-select formControlName="cookingPlace">
+            <mat-option *ngFor="let option of cookingPlaceOptions" class="u-padding-0-16" [value]="option.value">{{option.displayValue}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Час приготуваня</mat-label>
+          <input
+            formControlName="cookingTime"
+            type="number"
+            class="input-material"
+            matInput
+            placeholder="10"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Ціна</mat-label>
+          <input
+            formControlName="price"
+            type="number"
+            class="input-material"
+            matInput
+            placeholder="230 грн"
+          />
+        </mat-form-field>
+      </div>
+    </form>
+
+    <form [formGroup]="componentForm" class="wrapper">
+      <div class="ingredients-adding">
+        <mat-form-field>
+          <mat-label>Інгредієнт</mat-label>
+          <input
+            formControlName="name"
+            type="text"
+            class="input-material"
+            matInput
+            placeholder="Рис"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Вага</mat-label>
+          <input
+            formControlName="weight"
+            type="number"
+            class="input-material"
+            matInput
+            placeholder="120 гр"
+          />
+        </mat-form-field>
+        <button (click)="onAddComponent()" class="button button--green-dark">
+          Додати
+        </button>
+      </div>
+    </form>
+  </section>
+  <section class="adding-new-dish-container__section u-span-column-2">
+    <div class="ingredients">
+      <span *ngFor="let comp of dishComponents" class="ingredients__item"
+        >{{ comp.name }} - {{ comp.weight }}
+        <button
+          class="ingredients__cross"
+          (click)="onDeleteComponent(comp)"
+        ></button
+      ></span>
+    </div>
+
+    <div class="buttons-block">
+      <button class="button button--grey-dark">Вийти</button>
+      <button class="button button--primary-green" (click)="onCreateDish()">
+        Зберегти
+      </button>
+    </div>
+  </section>
+</div>

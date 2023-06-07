@@ -1,0 +1,45 @@
+<nav class="navbar">
+  <div class="navbar__container">
+    <div class="navbar__logo">
+      <img src="../../../assets/images/logo.svg" alt="Ninja Sushi" />
+    </div>
+
+    <div class="waiter-items">
+    <ng-container *ngIf="showBell">
+      <span
+        class="navbar__notifications"
+        (click)="handleClick()"
+        [class.navbar__notifications_active]="isActive"
+      >
+        <div class="navbar__bell">
+          <img src="../../../assets/images/bell.svg" alt="Bell" />
+          <span *ngIf="messageLength" class="navbar__indicator"
+            ><span class="navbar__notifications-number">{{
+              messageLength
+            }}</span></span
+          >
+        </div>
+        <ul class="navbar__orders">
+          <app-completed-order
+            *ngFor="let orderedDish of completedOrderedDishForWaiter"
+            [orderedDish]="orderedDish"
+            (click)="onCardClick(orderedDish)"
+          ></app-completed-order>
+        </ul>
+      </span>
+    </ng-container>
+
+    <ng-container>
+        <mat-icon class="menu-icon" mat-icon-button [matMenuTriggerFor]="appMenu">more_vert</mat-icon>
+      <mat-menu #appMenu="matMenu">
+        <ng-template matMenuContent let-name="name">
+          <app-menu-list [listItems]="menuService.menuItemes">
+
+          </app-menu-list>
+        </ng-template>
+      </mat-menu>
+    </ng-container>
+  </div>
+
+  </div>
+</nav>

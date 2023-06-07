@@ -1,0 +1,90 @@
+@import "../../../assets/styles/styles.scss";
+
+.cook-card {
+  width: em(270, 18);
+  font-size: rem(18);
+  border-radius: em(10, 18);
+  transition: all 0.3s ease 0s;
+
+  &:hover {
+    opacity: 0.5;
+  }
+
+  &_green {
+    background-color: $green-light;
+  }
+
+  &_yellow {
+    background-color: #e6c566;
+  }
+
+  &_red {
+    background-color: #d84f4f;
+    color: #ffffff;
+  }
+
+  &_blue {
+    background-color: #50d3ff;
+  }
+
+  // .cook-card__body
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: em(10, 18);
+    position: relative;
+    padding: em(10, 18);
+    height: em(150, 18);
+  }
+
+  // .cook-card__footer
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    gap: em(5, 18);
+  }
+
+  &__title,
+  &__waiter {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  // .cook-card__title
+
+  &__title {
+    max-width: em(250, 18);
+  }
+
+  // .cook-card__timer
+
+  &__timer {
+  }
+
+  // .cook-card__waiter
+
+  &__waiter {
+    max-width: em(200, 18);
+  }
+
+  // .cook-card__number
+
+  &__number {
+  }
+
+  // .cook-card__info
+
+  &__info {
+    z-index: 10;
+    cursor: help;
+    position: absolute;
+    top: em(10, 24);
+    right: em(10, 24);
+    font-size: rem(24);
+  }
+}

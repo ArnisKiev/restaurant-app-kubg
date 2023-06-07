@@ -1,0 +1,7 @@
+<li class="order">
+  
+    <span class="order__title">{{orderedDish.dish.title}}</span>
+    <app-counter class="fix" [disabled]="disabled" [(count)]="orderedDish.count" (onDecrease)="onDecrease($event)" (onIncrease)="onIncrease($event)"></app-counter>
+    <span class="order__price">{{sum}}</span>
+  
+</li>

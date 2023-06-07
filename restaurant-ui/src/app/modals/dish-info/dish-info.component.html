@@ -1,0 +1,12 @@
+<div class="dish-info-container">
+  <div class="image-wrapper">
+    <img [src]="image" />
+  </div>
+  <div class="info">
+    <h1 class="dish-name">{{dish.title}}</h1>
+    <h4 class="ingredients-header">Інгредієнти:</h4>
+    <ul class="igredients-list">
+      <li *ngFor="let component of dish.components" class="igredients-list__item">{{component.name}} - {{component.weight}}</li>  
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,5 @@
+<ul class="menu-list">
+  <li class="menu-list__item" *ngFor="let itemList of listItems" [ngClass]="{ 'menu-list__item--active':  isActive(itemList) }"    (click)="onItemClick(itemList)">
+    {{ itemList.itemName }}
+  </li>
+</ul>

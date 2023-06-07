@@ -1,0 +1,94 @@
+@import "../../../assets/styles/styles.scss";
+
+:host {
+  .menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: rem(16);
+    padding: rem(15); // rem(15) rem(15) 0;
+    height: auto;
+
+    &:hover .menu-list__item--active:not(:hover){
+       
+      background-color: unset;
+      transition: all 0.3s ease 0s;
+        &::after {
+          width: 0;
+          transition: all 0.3s ease 0s;
+          left: 50%;
+        }
+
+      }
+
+    
+
+    &__item {
+      display: block;
+      position: relative;
+      padding: rem(12) rem(10);
+      text-align: center;
+      opacity: 0;
+      transform: translateX(-100%);
+      cursor: pointer;
+      border-radius: rem(5);
+      transition: all 0.3s ease 0s;
+      animation: item-slide 0.3s forwards !important;
+
+  
+      &::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: rem(7.5);
+        height: rem(1.6);
+        width: 0;
+        border-radius: rem(5);
+        transition: all 0.3s ease 0s;
+        background-color: $grey-dark;
+      }
+
+      &--active {
+        background-color: $nude-color-dark;
+        &::after {
+          width: 90%;
+          left: 5%;
+        }
+
+  
+      }
+
+      &:hover {
+        background-color: $nude-color-dark;
+
+        &::after {
+          width: 90%;
+          left: 5%;
+        }
+      }
+    }
+  }
+
+  @for $i from 1 to 5 {
+    $delay: ($i - 1) * 0.2;
+    .menu-list__item:nth-child(#{$i}) {
+      animation-delay: #{$delay}s;
+    }
+  }
+
+  @keyframes item-slide {
+    0% {
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes back-item-slide {
+    0%  {
+
+    }
+  }
+
+}

@@ -1,0 +1,33 @@
+<!-- <div class="adding-block__item">
+    <button class="button-action" (click)="decrease()">
+      <img src="../../../assets/images/minus.svg" />
+    </button>
+
+  <div class="adding-block__item adding-block__item--number">
+    <span>{{ count }}</span>
+  </div>
+  <div class="adding-block__item">
+    <button class="button-action" (click)="increase()">
+      <img src="../../../assets/images/plus.svg" />
+    </button>
+  </div>
+</div> -->
+<div class="counter">
+<div>
+    <button class="button-action" (click)="decrease()" [disabled]="disabled">
+        <img src="../../../assets/images/minus.svg" />
+    </button>
+</div>
+
+
+    <div>
+        <span  class="number">{{ count }}</span>
+    </div>
+
+<div>
+    <button class="button-action" (click)="increase()" [disabled]="disabled">
+        <img src="../../../assets/images/plus.svg" />
+    </button>
+</div>
+
+</div>

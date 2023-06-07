@@ -1,0 +1,9 @@
+::-webkit-scrollbar {
+  width: rem(10);
+  background-color: #f1f1f1;
+
+  &-thumb {
+    border-radius: rem(5);
+    background-color: #a3a3a3;
+  }
+}

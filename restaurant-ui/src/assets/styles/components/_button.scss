@@ -1,0 +1,54 @@
+.button {
+  padding: em(8, 18) em(43.5, 18);
+  font-size: rem(18);
+  line-height: em(22, 18);
+  text-align: center;
+  border-radius: em(5, 18);
+  cursor: pointer;
+  letter-spacing: em(3.2, 18);
+  transition: all 0.3s ease 0s;
+
+  &:hover {
+    opacity: 0.5;
+  }
+
+  &--round {
+    padding: em(8, 18);
+    border-radius: 50%;
+  }
+
+  &--red {
+    @include color-button($red);
+  }
+
+  &--primary-green {
+    @include color-button($primary-green);
+  }
+
+  &--grey-dark {
+    @include color-button($grey-dark);
+  }
+
+  &--green-dark {
+    @include color-button($green-dark);
+  }
+
+  &--green-light {
+    @include color-button($green-light);
+    cursor: default;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &--animated {
+    box-shadow: 0 em(8, 18) em(3.2, 18) rgba($black, 0.1);
+    transition: all 0.25s;
+
+    &:active {
+      transform: translateY(em(8, 18));
+      box-shadow: none;
+    }
+  }
+}
