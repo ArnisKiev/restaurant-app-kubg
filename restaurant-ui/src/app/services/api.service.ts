@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
 import { RequestOptionParam } from '../interfaces/request-option-param';
 
 @Injectable({
@@ -8,7 +8,7 @@ import { RequestOptionParam } from '../interfaces/request-option-param';
 })
 export class ApiService {
 
-  private HOST:string = 'http://localhost:3000/'
+  private HOST:string = 'backend/'
 
   constructor(
     private httpClient: HttpClient
@@ -28,19 +28,19 @@ export class ApiService {
 
   public post<T>(url: string, data: T): Observable<T> {
     const fullUrlPath = this.generateUrlEndPoint(url);
-    return this.httpClient.post<T>(fullUrlPath, data);
+    return this.httpClient.post<T>(fullUrlPath, data).pipe(shareReplay(1));
   }
 
   public put<T>(url: string, data: T): Observable<T> {
     const fullUrlPath = this.generateUrlEndPoint(url);
-    return this.httpClient.put<T>(fullUrlPath, data);
+    return this.httpClient.put<T>(fullUrlPath, data).pipe(shareReplay(1));
   }
 
   public delete<T>(url: string, data: T): Observable<T> {
     const fullUrlPath = this.generateUrlEndPoint(url);
     return this.httpClient.delete<T>(fullUrlPath, {
       body: data
-    });
+    }).pipe(shareReplay(1));
   }
 
   private generateUrlEndPoint(url: string): string {

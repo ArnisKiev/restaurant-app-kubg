@@ -9,6 +9,9 @@ export class ApplicationStateService {
   public user: User;
   
 
+  get userFromStorage() {
+    return JSON.parse(sessionStorage.getItem('user'));
+  }
 
   constructor() { }
 }

@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { count, switchMap } from 'rxjs';
+import { Observable, count, map, shareReplay, switchMap } from 'rxjs';
 import { Dish } from 'src/app/interfaces/dish';
 import { Order } from 'src/app/interfaces/order';
 import { OrderService } from 'src/app/services/order.service';
+import { WaiterOrderService } from 'src/app/services/waiter-order.service';
 import { getMapCountElementsFromArray } from 'src/app/utils/utils';
 
 export interface INonConfirmedDish {
@@ -23,62 +24,67 @@ export class OrderConfirmComponent implements OnInit {
 
   @Input() table: number = 0;
 
-  nonConfirmedDishesMap: Map<Dish, number> = new Map<Dish, number>();
+  //nonConfirmedDishesMap: Map<Dish, number> = new Map<Dish, number>();
 
+  @Input()
   order: Order = null;
 
+  @Output()
+  confirmDishes: EventEmitter<void> = new EventEmitter<void>();
+
+  nonConfirmedDishesMap$: Observable<Map<Dish, number>>;
+  nonConfirmedDishesLength$: Observable<number>;
+  nonConfirmedDishes$: Observable<{dish: Dish, count: number}[]>;
 
 
-  constructor(public orderService: OrderService,
-    private cdr: ChangeDetectorRef) {
-  }
+  constructor(
+    public waiterOrderService: WaiterOrderService
+  ) {}
 
  
 
   ngOnInit(): void {
-     const nonConfirmedDishes = this.orderService.getNonConfirmedDishesForTable(this.table);
-     if (nonConfirmedDishes.length) {
-      this.nonConfirmedDishesMap = getMapCountElementsFromArray(nonConfirmedDishes);
-     }
 
-     this.orderService.onChangeNonConfirmedOrder$$.subscribe(() => {
-       this.cdr.detectChanges() 
-     })
+    this.nonConfirmedDishesMap$ = this.waiterOrderService.nonConfirmedOrders$.pipe(
+      map(nonConfirmedOrders => {
+        const nonConfirmedDishes = nonConfirmedOrders.get(this.table) ?? [];
 
-     this.orderService.getOrderByTable(this.table).subscribe(order => this.order = order);
+        return getMapCountElementsFromArray(nonConfirmedDishes);
+      }),
+      shareReplay(1)
+    );
 
-     this.orderService.onAddDishInBill$$.pipe(untilDestroyed(this), switchMap(() =>this.orderService.getOrderByTable(this.table))).subscribe(order => this.order = order);
+    this.nonConfirmedDishesLength$ = this.nonConfirmedDishesMap$.pipe(map(val => val.size));
 
-  }
+    this.nonConfirmedDishes$ = this.waiterOrderService.nonConfirmedOrders$.pipe(
+      map(nonConfirmedOrders => {
+        const nonConfirmedDishes: Dish[] = nonConfirmedOrders.get(this.table) ?? [];
+        const mapDishCount = getMapCountElementsFromArray<Dish>(nonConfirmedDishes);
 
-
-  get nonConfirmedDishesLength() {
-    return this.nonConfirmedDishesMap.size;
-  }
-
-
-  get nonConfirmedDishes() {
-    const nonc = getMapCountElementsFromArray<Dish>( this.orderService.getNonConfirmedDishesForTable(this.table))
-    return Array.from(nonc).map(([dish, count]) =>  {
+        return Array.from(mapDishCount).map(([dish, count]) =>  {
   
-      return {
-        dish,
-        count
-      }
-    })
+          return {
+            dish,
+            count
+          }
+        }); 
+
+    }));
   }
 
   get sumOfPrices() {
-    return this.orderService.getNonConfirmedDishesForTable(this.table).reduce((previous, current) => previous + current.price , 0);
+    return this.waiterOrderService.getNonConfirmedDishesForTable(this.table).reduce((previous, current) => previous + current.price , 0);
   }
-
 
   onConfirmClick() {
-    
-      this.orderService.createOrderForTable(this.table).subscribe();
+    if (!this.order) {
+      this.waiterOrderService.createOrderForTable(this.table);
+    } else {
+      this.waiterOrderService.addNonConfirmedDishesToOrder(this.table);
+    }
+
+      this.confirmDishes.emit();
   
-
+   
   }
-
-
 }

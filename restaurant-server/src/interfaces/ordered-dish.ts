@@ -18,3 +18,8 @@ export interface IChangedOrderedDishState {
     dishState: OrderDishState;
     previousState: OrderDishState;
 }
+
+export interface IAddDishesToOrder {
+    table: number;
+    dishes: OrderedDish[]
+}

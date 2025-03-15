@@ -54,10 +54,10 @@ export class EmployeeManagagingComponent implements OnInit {
 
 
       this.rolesOptions = RolesOptions;
-      this.rolesOptions.push({
-        value: null, 
-        displayValue: 'Усі'
-      })
+      // this.rolesOptions.unshift({
+      //   value: null, 
+      //   displayValue: 'Усі'
+      // })
 
   }
 

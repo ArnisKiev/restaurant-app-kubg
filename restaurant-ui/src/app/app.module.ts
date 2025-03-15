@@ -55,7 +55,8 @@ import { NegativeTimePipe } from './pipes/negative-time.pipe';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatMenuModule} from '@angular/material/menu';
 import { CounterComponent } from './shared/counter/counter.component';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @NgModule({
   declarations: [
     AppComponent,
@@ -89,8 +90,8 @@ import { CounterComponent } from './shared/counter/counter.component';
     CounterComponent,
   ],
   imports: [
-    BrowserModule,
     BrowserAnimationsModule,
+    BrowserModule,
     FormsModule,
     AppRoutingModule,
     NoopAnimationsModule,
@@ -105,12 +106,15 @@ import { CounterComponent } from './shared/counter/counter.component';
     MatIconModule,
     MatCheckboxModule,
     HttpClientModule,
-    MatProgressSpinnerModule,
+    MatProgressSpinnerModule, 
+    MatTooltipModule, 
+    MatIconModule,
     MatCardModule,
     MatTabsModule,
     MatPaginatorModule, 
     LayoutModule, 
-    MatMenuModule
+    MatMenuModule,
+    FontAwesomeModule
   ],
   exports: [RouterModule],
   providers: [ MatDialog,

@@ -3,8 +3,10 @@ import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { get } from 'lodash';
+import { Observable, Subject, shareReplay, startWith, tap } from 'rxjs';
 import { CookingPlaceOptions, Role, RolesOptions, User } from 'src/app/interfaces/user';
 import { UserService } from 'src/app/services/user.service';
+import {ProgressSpinnerMode} from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-adding-new-employee',
@@ -23,7 +25,15 @@ export class AddingNewEmployeeComponent implements OnInit {
 
   public user: User;
   
-  public isRequestSending: boolean = false;
+
+  private _isRequestSending$$: Subject<boolean> = new Subject<boolean>();
+  isRequestSending$: Observable<boolean> = this._isRequestSending$$
+  .pipe(
+    startWith(false),
+    shareReplay(1)
+  );
+
+  //public isRequestSending: boolean = false;
   public showSuccesContainer: boolean = false;
   public code: string = '';
   public cookingPlaceOptions = CookingPlaceOptions;
@@ -58,8 +68,14 @@ export class AddingNewEmployeeComponent implements OnInit {
 
   onCreateOrUpdate() {
 
+    this._isRequestSending$$.next(true);
+
+
     if (!this.user) {
-      this.userService.createUser(this.userObject).subscribe((user: User) => {
+      this.userService.createUser(this.userObject)
+        .pipe(tap(() => this._isRequestSending$$.next(false)))
+      .subscribe((user: User) => {
+      
         this.code = user?.code || '';
         this.showSuccesContainer = true;
         this.successMessage = 'Співробітник додан до бази!';
@@ -69,7 +85,9 @@ export class AddingNewEmployeeComponent implements OnInit {
 
     const updatedUser = Object.assign(this.user, this.userObject);
 
-    this.userService.updateUser(updatedUser).subscribe(() => {
+    this.userService.updateUser(updatedUser)
+    .pipe(tap(() => this._isRequestSending$$.next(false)))
+    .subscribe(() => {
       this.code = '';
       this.showSuccesContainer = true;
       this.successMessage = 'Дані оновленні!';
@@ -84,8 +102,9 @@ export class AddingNewEmployeeComponent implements OnInit {
   }
 
   onBackClick() {
-    this.isRequestSending = false;
+    this._isRequestSending$$.next(false);
     this.showSuccesContainer = false;
+    this.userForm.reset();
   }
 
 

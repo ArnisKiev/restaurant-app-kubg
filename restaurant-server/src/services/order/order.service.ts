@@ -2,18 +2,24 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { pick } from 'lodash';
 import { Model } from 'mongoose';
-import { async, Subject } from 'rxjs';
+import { async, merge, Observable, Subject } from 'rxjs';
 import { OrderDishState } from 'src/enums/order-dish-state';
 import { IRepository } from 'src/interfaces/IRepository';
-import { IChangedOrderedDishState, OrderedDish } from 'src/interfaces/ordered-dish';
+import { IAddDishesToOrder, IChangedOrderedDishState, OrderedDish } from 'src/interfaces/ordered-dish';
 import { IWebsocketMessage, WebsocketMessageType } from 'src/interfaces/websocket-message.interface';
 import { Order, OrderDocument } from 'src/schemas/order.schema';
 
 @Injectable()
 export class OrderService implements IRepository<Order> {
 
-    onCreatingOrder$$: Subject<IWebsocketMessage> = new Subject<IWebsocketMessage>();
-    onUpdatingOrder$$: Subject<IWebsocketMessage> = new Subject<IWebsocketMessage>();
+    private  onCreatingOrder$$: Subject<IWebsocketMessage> = new Subject<IWebsocketMessage>();
+    private onUpdatingOrder$$: Subject<IWebsocketMessage> = new Subject<IWebsocketMessage>();
+    
+    orderChannel$: Observable<IWebsocketMessage> = merge(
+      this.onCreatingOrder$$,
+      this.onUpdatingOrder$$
+    );
+
 
     constructor(@InjectModel(Order.name) private orderModel: Model<OrderDocument>) {
     }
@@ -79,37 +85,43 @@ export class OrderService implements IRepository<Order> {
     async changeStateOrderedDish(data: IChangedOrderedDishState) {
 
 
-        const order = await this.orderModel.findOneAndUpdate(
-            {
-              table: data.table,
-              isActive: true,
-              dishes: {
-                $elemMatch: {
-                  _id: data.orderedDish._id,
-                  orderDishState: data.previousState
-                },
-              },
-            },
-            {
-              $set: {
-                "dishes.$[elem].orderDishState": data.dishState,
-              },
-            },
-            {
-              new: true,
-              arrayFilters: [
-                { "elem._id": data.orderedDish._id, "elem.orderDishState": data.previousState },
-              ],
-            }
-          );
-        
-          if (!order) {
-            return null;
-          }
-        
-        const updatedDish = order.dishes.find(dish => dish?._id === data.orderedDish?._id && dish.orderDishState === data.dishState )
+      const order = await this.orderModel.findOne(
+        {
+          table: data.table,
+          isActive: true,
+        }
+      );
+      
 
-        this.notifyAboutUpdatingOrederedDishState(updatedDish);
+   
+     
+      const updatedDishIndex = order.dishes.findIndex(dish => dish._id === data.orderedDish._id && dish.orderDishState === data.previousState)
+
+      const updatedDish = order.dishes[updatedDishIndex];
+
+
+      const keyToUpdate = `dishes.${updatedDishIndex}.orderDishState`;
+
+      await this.orderModel.findOneAndUpdate(
+        {
+          table: data.table,
+          isActive: true,
+        },
+        {
+          $set: {
+            [keyToUpdate]: data.dishState // Обновляем orderDishState для элемента массива dishes с динамическим индексом
+          }
+        },
+        {
+          new: true, // Возвращать обновленный документ
+          returnDocument: 'after' // Возвращает обновленный документ
+        }
+      );
+
+
+      updatedDish.orderDishState = data.dishState;
+   
+      this.notifyAboutUpdatingOrederedDishState(updatedDish);
       
         return true;
       }
@@ -118,46 +130,55 @@ export class OrderService implements IRepository<Order> {
         throw new Error('Method not implemented.');
     }
     update(item: Order) {
-        throw new Error('Method not implemented.');
-    }
-    findById(id: any) {
-        throw new Error('Method not implemented.');
-    }
 
+      const newDishes = item.dishes.filter(dish => dish.orderDishState === OrderDishState.InProgress);
 
-    createOrder(order: Order): Promise<Order> {
-        return new Promise(async (resolve, reject) => {
-            const newOrder = new this.orderModel(order);
-            try {
-                await newOrder.save();
-                const msg: IWebsocketMessage = {
-                    payload: order,
-                    type: WebsocketMessageType.OrderCreatingMessage,
-                    channel: 'Order'
-                }
+      if (!newDishes.length) {
+        this.notifyAboutCreatingOrder(newDishes);
+      }
 
-                this.onCreatingOrder$$.next(msg);
-
-                resolve(order);
-            } catch (ex) {
-                reject(ex);
-            }
-        })
-    }
-
-    updateOrder(id: string, order: Order): Promise<Order> {
-        return new Promise(async (resolve, reject) => {
-            const previousOrder = await this.orderModel.findById(id); //refactoring
-
-            // const newDishes = order.dishes.reduce((newDishes, curerentDish)=>{
-            //     if ()
-            // }, []);
-            
-            
-        })
+        return this.orderModel.findOneAndUpdate({
+          table: item.table,
+          isActive: true
+        }, item);
     }
 
 
+    async getOrderByTable(table: number) {
+      return await this.orderModel.findOne({
+        table,
+        isActive: true
+      });
+    }
+
+    async addDishesToOrder(data: IAddDishesToOrder) {
+      const order = await this.orderModel.findOne({
+        table: data.table,
+        isActive: true
+      });
+
+      if (order) {
+        const dishes = data.dishes;
+
+        dishes.forEach(dish => {
+          dish.orderTime = new Date(Date.now());
+          dish.orderDishState = OrderDishState.InProgress;
+          dish.table = order.table;
+          dish.waiter = order.waiter;
+      })
+
+      this.notifyAboutCreatingOrder(data.dishes);
+        order.dishes.push(...dishes);
+
+        
 
 
+        await order.save();
+      } 
+
+      return true;
+    }
 }
+
+
+

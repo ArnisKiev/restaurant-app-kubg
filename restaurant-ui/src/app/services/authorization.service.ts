@@ -39,12 +39,14 @@ export class AuthorizationService {
           break;
         }
 
+        debugger
         localStorage.setItem(user.role.toString(), JSON.stringify(user))
       }
     })
   }
 
   public startRoutingRedirects() {
+  
     this.applicationStateService.user = JSON.parse(sessionStorage.getItem('user'))
     this.router.events.subscribe(event => {
 
@@ -63,6 +65,9 @@ export class AuthorizationService {
       }
 
       console.log(this.applicationStateService.user)
+
+      
+    
 
       //   const currentUser = this.applicationStateService.user;
 
@@ -90,7 +95,6 @@ export class AuthorizationService {
       //   }
        }
     })
+
   }
-
-
 }

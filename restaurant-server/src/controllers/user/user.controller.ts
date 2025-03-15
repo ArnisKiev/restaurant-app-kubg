@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put, Query } from '@nestjs/common';
 import { User } from 'src/schemas/users.schema';
 import { UserService } from 'src/services/user/user.service';
 
@@ -24,6 +24,16 @@ export class UserController {
     @Get() 
     async getAllUsers() {
         return await this.userService.getAllUsers();
+    }
+
+    @Put()
+    async updateUser(@Body() user: User) {
+        return await this.userService.update(user);
+    }
+
+    @Delete() 
+    async deleteUser(@Body() user: User ) {
+        return await this.userService.delete(user);
     }
      
 

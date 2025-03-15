@@ -6,6 +6,8 @@ import { Order } from 'src/app/interfaces/order';
 import { DishService } from 'src/app/services/dish.service';
 import { OrderService } from 'src/app/services/order.service';
 import { getMapCountElementsFromArray } from 'src/app/utils/utils';
+import { WaiterOrderService } from './../../../services/waiter-order.service';
+import { BehaviorSubject, Observable, Subject, map, shareReplay, tap } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -21,36 +23,52 @@ export class OrderCreatingComponent implements OnInit {
   nonConfirmedOrderedDishes: Map<Dish, number> = new Map<Dish, number>();
   dishesInBill: Map<OrderedDish, number> = new Map<OrderedDish, number>();
 
-  dishes: Dish[] = [];
+  private _dishes$$: Subject<Dish[]> = new Subject<Dish[]>();
+  dishes$: Observable<Dish[]> = this._dishes$$;
+
+
+  private _order$$: BehaviorSubject<Order> = new BehaviorSubject<Order>(null);
+
+  order$: Observable<Order> = this._order$$;
+
+  dishesInBill$: Observable<Map<OrderedDish, number>> = this.order$.pipe(
+    map(order => getMapCountElementsFromArray<OrderedDish>(order.dishes as OrderedDish[]))
+  )
+  
 
 
   constructor(
-    private orderService: OrderService,
+    private waiterOrderService: WaiterOrderService,
     private dishService: DishService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.table = data.table;
   }
+  
   ngOnInit(): void {
     this.dishService.getAllDishes()
     .pipe(untilDestroyed(this))
-    .subscribe(dishes => this.dishes = dishes);
+    .subscribe(dishes => this._dishes$$.next(dishes));
 
-    this.orderService.getOrderByTable(this.table)
-    .subscribe(order => {
+    this.waiterOrderService.getOrderByTable(this.table)
+    .pipe((tap(order => {
       if (order) {
-      this.order = order;
-      this.dishesInBill = getMapCountElementsFromArray<OrderedDish>(order.dishes as OrderedDish[]);
+        this._order$$.next(order);
       }
-    })
-
+    })), 
+    ).subscribe();
+    
 
   }
 
-
   public onConfirmOrder() {
-    this.orderService.createOrderForTable(this.table)
-    .pipe(untilDestroyed(this))
-    .subscribe();
+     this.waiterOrderService.getOrderByTable(this.table)
+    .pipe((tap(order => {
+      console.log(order)
+      if (order) {
+        this._order$$.next(order);
+      }
+    }))
+    ).subscribe()
   }
 
 }

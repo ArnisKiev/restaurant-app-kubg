@@ -69,13 +69,17 @@ export class CookCardComponent implements OnInit {
 
   get cardModificator() {
     
-    const minutes = new Date(this.displayRemainingTime).getMinutes();
+    const seconds = new Date(this.displayRemainingTime).getSeconds();
+    const cookingTime = this.orderedDish.cookingTime * 60;
+
+    console.log(cookingTime)
+    console.log(seconds)
 
 
     return {
-      'cook-card_yellow':  minutes >= (this.orderedDish.cookingTime / 3) && minutes < (this.orderedDish.cookingTime * 2 / 3),
-      'cook-card_red':  minutes <  (this.orderedDish.cookingTime / 3) || this.timeOut.getTime() < Date.now(),
-      'cook-card_green': minutes >= (this.orderedDish.cookingTime * 2 / 3),
+      'cook-card_yellow':  seconds >= (cookingTime / 3) && seconds < (cookingTime * 2 / 3),
+      'cook-card_red':  seconds <  (cookingTime / 3) || this.timeOut.getTime() < Date.now(),
+      'cook-card_green': seconds >= (cookingTime * 2 / 3),
     }
   }
 

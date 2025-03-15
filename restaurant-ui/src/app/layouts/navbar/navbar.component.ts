@@ -1,6 +1,7 @@
 import { Component, HostBinding, OnChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
+import { Observable, map } from 'rxjs';
 import { OrderDishState } from 'src/app/enums/order-dish-state';
 import { IChangedOrderedDishState, OrderedDish } from 'src/app/interfaces/dish';
 import { Role } from 'src/app/interfaces/user';
@@ -8,6 +9,7 @@ import { ApplicationStateService } from 'src/app/services/application-state.serv
 import { MenuService } from 'src/app/services/menu.service';
 import { ModalService } from 'src/app/services/modal.service';
 import { OrderService } from 'src/app/services/order.service';
+import { WaiterOrderService } from 'src/app/services/waiter-order.service';
 
 @Component({
   selector: 'app-navbar',
@@ -29,7 +31,7 @@ export default class NavbarComponent {
   constructor(
     public router: Router,
     public applicationState: ApplicationStateService,
-    public orderService: OrderService,
+    public waiterOrderService: WaiterOrderService,
     public modalService: ModalService,
     public menuService: MenuService
   ) {
@@ -43,8 +45,8 @@ export default class NavbarComponent {
       table: orderedDish.table,
       previousState: OrderDishState.WaitingWaiter,
     };
-    this.orderService
-      .updateOrderedDishState(changeStateOrderedDish)
+    this.waiterOrderService
+      .updateOrderedDish(changeStateOrderedDish)
       .subscribe(res => console.log(res));
   }
 
@@ -59,15 +61,25 @@ export default class NavbarComponent {
     return this.applicationState?.user?.role === Role.WAITER;
   }
 
-  get messageLength() {
-    return this.completedOrderedDishForWaiter.length;
-  }
 
-  public get completedOrderedDishForWaiter() {
-    return this.orderService.preparingDishes.filter(
-      (orderedDish) =>
-        isEqual(orderedDish?.waiter, this.applicationState?.user) &&
-        orderedDish.orderDishState === OrderDishState.WaitingWaiter
-    );
-  }
+
+
+  completedOrderedDishForWaiter$: Observable<OrderedDish[]> = this.waiterOrderService.preparingDishes$.pipe(
+    map(dishes => {
+      
+      return dishes.filter(dish => dish.orderDishState === OrderDishState.WaitingWaiter) 
+      })
+  );
+
+  messageLength$: Observable<number> = this.completedOrderedDishForWaiter$.pipe(
+    map(dishes => dishes.length)
+  );
+
+  // public get completedOrderedDishForWaiter() {
+  //   return this.waiterOrderService.preparingDishes.filter(
+  //     (orderedDish) =>
+  //       isEqual(orderedDish?.waiter, this.applicationState?.user) &&
+  //       orderedDish.orderDishState === OrderDishState.WaitingWaiter
+  //   );
+  // }
 }

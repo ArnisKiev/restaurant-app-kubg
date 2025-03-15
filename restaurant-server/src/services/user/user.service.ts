@@ -45,12 +45,17 @@ export class UserService implements IRepository<User>{
     }
 
 
-    delete(item: User) {
-        throw new Error('Method not implemented.');
+    delete(user: User) {
+        return this.UserModel.deleteOne(user);
     }
+
     update(item: User) {
-        throw new Error('Method not implemented.');
+        return this.UserModel.findOneAndUpdate({
+            _id: (item as any)?._id,
+        }, item)
     }
+
+
     findById(id: any) {
         throw new Error('Method not implemented.');
     }

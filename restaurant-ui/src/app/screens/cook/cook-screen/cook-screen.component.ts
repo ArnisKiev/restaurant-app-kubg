@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Observable, map, tap } from 'rxjs';
 import { OrderDishState } from 'src/app/enums/order-dish-state';
 import { IChangedOrderedDishState, OrderedDish } from 'src/app/interfaces/dish';
 import { ApplicationStateService } from 'src/app/services/application-state.service';
@@ -20,6 +21,12 @@ export class CookScreenComponent {
   }
 
 
+  preparingDishes$: Observable<OrderedDish[]> = this.orderService.preparingDishes$.pipe(
+    map(dishes => dishes?.filter(dish => dish.orderDishState === OrderDishState.InProgress && this.applicationStateService.user?.cookingPlace === dish.cookingPlace))
+  ).pipe(tap(val => {
+    debugger
+  }));
+
   onCompletePreparingOrderedDish(orderedDish: OrderedDish) {
   const changeStateOrderedDish: IChangedOrderedDishState = {
     orderedDish,
@@ -27,7 +34,7 @@ export class CookScreenComponent {
     table: orderedDish.table ,
     previousState:OrderDishState.InProgress
   }
-  this.orderService.updateOrderedDishState(changeStateOrderedDish).subscribe();
+  this.orderService.updateOrderedDish(changeStateOrderedDish).subscribe();
 }
 
 
@@ -42,11 +49,11 @@ onCardClick(orderedDish: OrderedDish) {
 
 
 
-  get preparingDishes(): OrderedDish[] {
+  // get preparingDishes(): OrderedDish[] {
 
-    return this.orderService.preparingDishes
-    .filter(preparingDish => preparingDish.cookingPlace === this.applicationStateService.user?.cookingPlace
-      && preparingDish.orderDishState === OrderDishState.InProgress);
-  }
+  //   return this.orderService.preparingDishes
+  //   .filter(preparingDish => preparingDish.cookingPlace === this.applicationStateService.user?.cookingPlace
+  //     && preparingDish.orderDishState === OrderDishState.InProgress);
+  // }
 
 }

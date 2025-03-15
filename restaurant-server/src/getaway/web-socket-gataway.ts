@@ -27,8 +27,7 @@ export class WebSocketGateaway implements OnGatewayConnection, OnGatewayInit, On
 
     onModuleInit() {
         merge(
-        this.orderService.onCreatingOrder$$,
-        this.orderService.onUpdatingOrder$$
+        this.orderService.orderChannel$
         )
         .subscribe(message => {
             this.server.emit('message', message);

@@ -155,3 +155,72 @@
   align-items: end;
   gap: rem(16);
 }
+
+.loaderFileField {
+  height: 200px;
+  width: 100%;
+  background-color: rgb(177, 170, 170);
+  position: relative;
+
+  display: none;
+
+  &::after {
+    content: 'Load image';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+  }
+
+}
+
+.load-image-label {
+  background-color: rgba(177, 170, 170, 0.4);
+  width: 100%;
+  min-height: 300px;
+  position: relative;
+  height: 100%;
+  cursor: pointer;
+
+}
+
+.display-on-hover {
+
+  .load-image-label {
+    visibility: hidden;
+  }
+
+  &:hover {
+    .load-image-label {
+      visibility: visible;
+    }
+  }
+
+
+}
+
+.icon-dish {
+  max-height: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.text-wrapper {
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  span {
+    font-weight: 600;
+  }
+}
+

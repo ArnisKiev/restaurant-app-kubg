@@ -3,7 +3,7 @@
     <app-order-form [table]="table"></app-order-form>
   </mat-tab>
   <mat-tab label="Підтвердження замовлення"
-    ><app-order-confirm (onOrderConfirmClick)="onConfirmOrder()" [table]="table"></app-order-confirm
+    ><app-order-confirm [order]="order$ | async" (confirmDishes)="onConfirmOrder()" [table]="table"></app-order-confirm
   ></mat-tab>
-  <mat-tab label="Рахунок"><app-bill [table]="table"></app-bill></mat-tab>
+  <mat-tab label="Рахунок"><app-bill [order]="order$ |async"  [table]="table"></app-bill></mat-tab>
 </mat-tab-group>

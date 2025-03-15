@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { AdminComponents } from 'src/app/enums/displaying-component';
 import { MenuOption } from 'src/app/interfaces/options';
 import { OrderService } from 'src/app/services/order.service';
@@ -17,6 +18,8 @@ export class AdminComponent {
   constructor(public orderService: OrderService) {
 
   }
+
+  preparingDishes$: Observable<any> = this.orderService.preparingDishes$;
 
   currentComponent: AdminComponents = AdminComponents.ManageEmployee;
   adminComponents = AdminComponents; 

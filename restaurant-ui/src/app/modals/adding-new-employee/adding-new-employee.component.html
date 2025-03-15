@@ -1,5 +1,5 @@
 <div class="adding-new-employee-container">
-  <ng-container *ngIf="!isRequestSending && !showSuccesContainer">
+  <ng-container *ngIf="!(isRequestSending$ | async) && !showSuccesContainer">
     <form [formGroup]="userForm">
       <div class="row">
         <mat-form-field>
@@ -40,11 +40,11 @@
     </form>
   </ng-container>
 
-  <ng-container *ngIf="isRequestSending">
+   <ng-container *ngIf="isRequestSending$ | async">
     <div class="spinner-wrapper">
-      <mat-progress-spinner style="margin: 0 10px" value="10" mode="indeterminate"></mat-progress-spinner>
+      <span class="loader"></span>
     </div>
-  </ng-container>
+   </ng-container>
 
   <ng-container *ngIf="showSuccesContainer">
     <div class="message-wrapper">

@@ -1,1 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+.svg-inline--fa {
+    height: 200px !important;
+  }
+
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+// Plus imports for other components in your app.
+
+// Include the shared styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+
+.svg-inline--fa {
+    height: 20px !important;
+}

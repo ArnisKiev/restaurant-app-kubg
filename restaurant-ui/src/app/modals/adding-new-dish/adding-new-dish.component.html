@@ -1,7 +1,18 @@
 <div class="adding-new-dish-container">
   <section class="adding-new-dish-container__section">
-    <div class="loading-image-field">
-     <img [src]="image" />
+    <div class="loading-image-field" [ngClass]="{'display-on-hover': selectedImage ?? dish?.imgPath}">
+     
+     <img class="icon-dish" *ngIf="dish?.imgPath ?? selectedImage" [src]="selectedImage ?? dish?.imgPath" />
+
+     <input id='loadImage' type="file" (change)="onImageInit($event)" accept=".webp" class="loaderFileField"/>
+
+     <label class="load-image-label"  for="loadImage">
+      <div class="text-wrapper">
+        <fa-icon [icon]="imageIcon"></fa-icon>
+        <span>Load image</span>
+      </div>
+     </label>
+
     </div>
   </section>
   <section class="adding-new-dish-container__section">

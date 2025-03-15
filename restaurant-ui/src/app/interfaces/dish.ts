@@ -13,6 +13,7 @@ export interface Dish {
     cookingTime?: number;
     isStopList?: boolean;
     price: number;
+    imgPath: string;
 }
 
 export interface OrderedDish extends Dish {

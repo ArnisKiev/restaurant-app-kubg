@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Dish } from 'src/app/interfaces/dish';
 import { INonConfirmedDish } from 'src/app/screens/waiter/order-creating/order-confirm/order-confirm.component';
 import { OrderService } from 'src/app/services/order.service';
+import { WaiterOrderService } from 'src/app/services/waiter-order.service';
 
 @Component({
   selector: 'app-order',
@@ -19,16 +20,16 @@ export class OrderComponent {
    *
    */
   constructor(
-    private orderService: OrderService
+    private waiterOrderService: WaiterOrderService
   ) {
   }
 
   onIncrease(count: number) {
-   this.orderService.addToNonConfirmedDishes(this.table, [this.orderedDish.dish]);
+    this.waiterOrderService.addNonConfirmedDishes(this.table, [this.orderedDish.dish]);
   }
 
   onDecrease(count: number) {
-    this.orderService.deleteNonConfirmedDish(this.table, this.orderedDish.dish);
+    this.waiterOrderService.deleteNonConfirmedDish(this.table, this.orderedDish.dish);
   }
 
   get sum() {

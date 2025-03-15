@@ -39,10 +39,10 @@ export class DishesManageComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    this.cookingPlaces.push({
-      displayValue: 'Усі',
-      value: null
-    });
+    // this.cookingPlaces.push({
+    //   displayValue: 'Усі',
+    //   value: null
+    // });
 
     this.dishService.getAllDishes().subscribe(dishes => { 
       this.allDishes = dishes
@@ -58,7 +58,12 @@ export class DishesManageComponent implements OnInit {
   onStopListChange(newState: any, element: Dish) {
 
     element.isStopList = newState.checked;
-    this.dishService.updateDish(element).subscribe();
+
+    const formData = new FormData();
+
+    formData.append('dish', JSON.stringify(element));
+
+    this.dishService.updateDish(formData).subscribe();
   } 
 
   onDeleteClick(dish: Dish){
@@ -78,8 +83,8 @@ export class DishesManageComponent implements OnInit {
 
       const filterCookingPlace = !filteredCookingPlace? true : dish.cookingPlace === filteredCookingPlace;
 
-      return generalString.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) && filterCookingPlace;
-    }).sort((a, b) => a.title.localeCompare(b.title))
+      return generalString?.toLocaleLowerCase().includes(searchValue?.toLocaleLowerCase()) && filterCookingPlace;
+    }).sort((a, b) => a.title?.localeCompare(b.title) ?? 0)
   }
 
   convertingCookingPlaceFromEngToUa = convertCookingPlaceFromEngToUa;

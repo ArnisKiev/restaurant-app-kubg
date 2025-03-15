@@ -6,6 +6,7 @@ import { range  } from 'lodash';
 import { OrderService } from 'src/app/services/order.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CookingPlaceOptions } from 'src/app/interfaces/user';
+import { WaiterOrderService } from './../../../../services/waiter-order.service';
 
 @Component({
   selector: 'app-order-form',
@@ -30,17 +31,22 @@ export class OrderFormComponent implements OnInit {
 
   constructor(
     public dishService: DishService,
-    private orderService: OrderService
+    private waiterOrderService: WaiterOrderService
   ) {
   }
 
   ngOnInit(): void {
     this.dishService.getAllDishes()
     .subscribe((dishes: Dish[]) => this.dishes = dishes);
-    this.cookingPlaceOptions.push({
-      displayValue: 'Усі',
-      value: null
-    })
+
+    if (!this.cookingPlaceOptions.some(x => x.displayValue === 'Всі')) {
+      this.cookingPlaceOptions.push({
+        displayValue: 'Всі',
+        value: null
+      })
+    }
+
+   
   }
 
   get filteredDishes(): Dish[] {
@@ -54,7 +60,7 @@ export class OrderFormComponent implements OnInit {
 
   onAddDish(addingDish: AddingDish) {
     const clonedDishes = range(addingDish.count).map(x => addingDish.dish)
-    this.orderService.addToNonConfirmedDishes(this.table, clonedDishes);
+    this.waiterOrderService.addNonConfirmedDishes(this.table, clonedDishes);
   }
 
 }

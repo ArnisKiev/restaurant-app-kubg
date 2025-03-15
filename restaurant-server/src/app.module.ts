@@ -10,8 +10,7 @@ import { WebSocketModule } from './modules/web-socket/web-socket.module';
 
 @Module({
   imports: [ 
-    
-    MongooseModule.forRoot('connection-string'),
+    MongooseModule.forRoot('mongodb+srv://nkazantsev0105:nik20033002@arnis-projects.rdzte3w.mongodb.net/restaurant?retryWrites=true&w=majority'),
     UsersModule,
     DishModule,
     OrderModule,

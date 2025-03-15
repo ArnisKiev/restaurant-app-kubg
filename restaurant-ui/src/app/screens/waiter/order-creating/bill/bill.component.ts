@@ -19,6 +19,7 @@ export class BillComponent {
 
   nonConfirmedDishesMap: Map<OrderedDish, number> = new Map<OrderedDish, number>();
 
+  @Input()
   order: Order = null;
 
 
@@ -29,8 +30,8 @@ export class BillComponent {
   }
 
   ngOnInit(): void {
-     const nonConfirmedDishes = this.orderService.getNonConfirmedDishesForTable(this.table);
-     console.log(nonConfirmedDishes)
+    //==  const nonConfirmedDishes = this.orderService.getNonConfirmedDishesForTable(this.table);
+    //  console.log(nonConfirmedDishes)
 
      this.orderService.getOrderByTable(this.table).subscribe(order => {
       this.order = order;

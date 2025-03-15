@@ -16,8 +16,8 @@ export class DishService {
 
   public onUpdateOperationDB$$: Subject<void> = new Subject<void>();
 
-  public createDish(dish: Dish) {
-    return this.apiService.post<Dish>(serverEndPoint.dish, dish)
+  public createDish(dish: Dish | FormData) {
+    return this.apiService.post<Dish | FormData>(serverEndPoint.dish, dish)
     .pipe(tap(()=>this.onUpdateOperationDB$$.next()));
   }
 
@@ -25,8 +25,8 @@ export class DishService {
     return this.apiService.get<Dish[]>(serverEndPoint.dish)
   }
 
-  public updateDish(dish: Dish) {
-    return this.apiService.put<Dish>(serverEndPoint.dish, dish)
+  public updateDish(dish: Dish | FormData) {
+    return this.apiService.put<Dish | FormData>(serverEndPoint.dish, dish)
     .pipe(tap(()=>this.onUpdateOperationDB$$.next()));
   }
 

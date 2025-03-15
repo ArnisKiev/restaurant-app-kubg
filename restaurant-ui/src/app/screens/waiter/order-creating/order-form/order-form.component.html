@@ -7,9 +7,8 @@
           <mat-icon matSuffix aria-hidden="false" fontIcon="search"></mat-icon>
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Усі</mat-label>
-          <mat-select formControlName="cookingPlace">
-            <mat-option *ngFor="let option of cookingPlaceOptions" class="u-padding-0-16" [value]="option.value">{{option.displayValue}}</mat-option>
+          <mat-select placeholder="Усі" formControlName="cookingPlace">
+            <mat-option  *ngFor="let option of cookingPlaceOptions" class="u-padding-0-16" [value]="option.value">{{option.displayValue}}</mat-option>
           </mat-select>
         </mat-form-field>
       </form>

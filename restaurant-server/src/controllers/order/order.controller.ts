@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { IChangedOrderedDishState } from 'src/interfaces/ordered-dish';
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { IAddDishesToOrder, IChangedOrderedDishState } from 'src/interfaces/ordered-dish';
 import { Order } from 'src/schemas/order.schema';
 import { OrderService } from 'src/services/order/order.service';
 
@@ -27,5 +27,19 @@ export class OrderController {
         return await this.orderService.changeStateOrderedDish(data);
     }
 
+    @Get('get-order-by-table')
+    async getOrderBuTable(@Query('table') table: number) {
+        return this.orderService.getOrderByTable(+table);
+    }
+
+    @Put()
+    async updateOtder(@Body() order) {
+        return await this.orderService.update(order);
+    }
+
+    @Put('add-dishes-to-order')
+    async addDishesToOrder(@Body() data: IAddDishesToOrder) {
+       return await  this.orderService.addDishesToOrder(data);
+    }
 
 }

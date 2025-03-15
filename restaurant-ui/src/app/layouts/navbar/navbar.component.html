@@ -13,15 +13,15 @@
       >
         <div class="navbar__bell">
           <img src="../../../assets/images/bell.svg" alt="Bell" />
-          <span *ngIf="messageLength" class="navbar__indicator"
-            ><span class="navbar__notifications-number">{{
-              messageLength
-            }}</span></span
+          <span *ngIf="messageLength$ | async" class="navbar__indicator"
+            ><span class="navbar__notifications-number">
+              {{messageLength$ | async}}
+          </span></span
           >
         </div>
         <ul class="navbar__orders">
           <app-completed-order
-            *ngFor="let orderedDish of completedOrderedDishForWaiter"
+            *ngFor="let orderedDish of (completedOrderedDishForWaiter$ | async)"
             [orderedDish]="orderedDish"
             (click)="onCardClick(orderedDish)"
           ></app-completed-order>

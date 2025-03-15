@@ -1,39 +1,32 @@
 import { Injectable } from '@angular/core';
 import { io } from "socket.io-client";
-import { WebSocketSubject } from 'rxjs/webSocket';
 import { IWebsocketMessage, WebsocketMessageType } from '../interfaces/web-socket';
-import { OrderService } from './order.service';
+import { DynamicOrderService } from './dynamic-order.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WebSocketService {
 
-  socket = io('http://localhost:3000', {
-    autoConnect: true
+  socket = io(window.location.origin, {
+    autoConnect: true,
+    path: '/socket.io'
   });
 
 
 
   constructor(
-    private orderService: OrderService
+    private dynamicOrderService: DynamicOrderService
   ) { }
 
-  initSocket() {
-
-
-  
+  initSocket() {  
     this.socket.on('message', (message: IWebsocketMessage) => {
-    
       switch(message.type) {
         case WebsocketMessageType.OrderCreatingMessage: 
-        return this.orderService.processOnOrderCreating(message);
+        return this.dynamicOrderService.orderService.processOnOrderCreating(message);
         case WebsocketMessageType.OrderedDishUpdatingState: 
-        return this.orderService.processOnUpdatingOrederedDishState(message);
-
+        return this.dynamicOrderService.orderService.processOnUpdatingOrederedDishState(message);
       }
-
-
     })
   }
 

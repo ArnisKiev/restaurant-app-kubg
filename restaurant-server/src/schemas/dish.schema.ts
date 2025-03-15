@@ -28,6 +28,9 @@ export class Dish {
 
     @Prop()
     price: number;
+
+    @Prop()
+    imgPath: string;
 }
 
 export const DishSchema = SchemaFactory.createForClass(Dish);

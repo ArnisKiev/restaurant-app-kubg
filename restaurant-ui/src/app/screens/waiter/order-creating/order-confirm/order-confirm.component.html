@@ -1,13 +1,13 @@
 <div class="order-confirm">
   <div class="order-confirm__container">
     <ul class="order-confirm__orders">
-      <ng-container *ngFor="let order of nonConfirmedDishes">
+      <ng-container *ngFor="let order of (nonConfirmedDishes$ | async)">
         <app-order  *ngIf="order?.count > 0" [table]="table" [orderedDish]="order"></app-order>
       </ng-container>
    
     
     </ul>
-    <div class="order-confirm__footer" *ngIf="nonConfirmedDishes.length">
+    <div class="order-confirm__footer" *ngIf="(nonConfirmedDishes$ | async).length">
       <div class="order-confirm__total">
         <span class="order-confirm__total-label">Разом:</span>
         <span class="order-confirm__total-price">{{ sumOfPrices }} грн</span>
